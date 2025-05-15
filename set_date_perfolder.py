@@ -3,7 +3,10 @@ import re
 import subprocess
 from tqdm import tqdm
 
+## re-escribe los metadatos de fecha, basandose en la carpeta contenedora
+## siguiendo una estructura apple - "3 de abril de 2002"
 # Diccionario de meses en español
+
 MESES = {
     "enero": "01", "febrero": "02", "marzo": "03", "abril": "04",
     "mayo": "05", "junio": "06", "julio": "07", "agosto": "08",

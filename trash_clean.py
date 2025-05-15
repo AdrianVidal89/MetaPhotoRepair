@@ -20,13 +20,19 @@ def escanear_archivos(carpeta_base):
         for file in files:
             full_path = os.path.join(root, file)
             todos_los_archivos.append(full_path)
-            #print(f"📸 Encontrado: {full_path}")
     return todos_los_archivos
 
 def clasificar_archivos(lista_archivos):
     basura = [f for f in lista_archivos if es_archivo_basura(f)]
     utiles = [f for f in lista_archivos if not es_archivo_basura(f)]
     return utiles, basura
+
+def guardar_reporte_basura(basura):
+    with open("reporte_basura.txt", "w") as r:
+        r.write("🗑 Archivos marcados como basura:\n\n")
+        for archivo in basura:
+            r.write(f"{archivo}\n")
+    print("📄 Reporte generado: reporte_basura.txt")
 
 def eliminar_con_progreso(archivos):
     print("\n🗑 Borrando archivos basura...")
@@ -37,7 +43,7 @@ def eliminar_con_progreso(archivos):
             print(f"⚠️ Error al borrar {archivo}: {e}")
 
 def main():
-    carpeta_objetivo = "/Users/adrianvidal/Library/CloudStorage/OneDrive-Personal/vCloudDocuments/Multimedia/Photos/2_Photos Edited"
+    carpeta_objetivo = "/Multimedia/Fotos/"
     
     archivos = escanear_archivos(carpeta_objetivo)
     utiles, basura = clasificar_archivos(archivos)
@@ -51,7 +57,9 @@ def main():
         print("🎉 No hay archivos basura. Nada que borrar.")
         return
 
-    decision = input("\n¿Deseas eliminar los archivos basura? (y/n): ").strip().lower()
+    guardar_reporte_basura(basura)
+
+    decision = input("\n¿Deseas eliminar los archivos listados en 'reporte_basura.txt'? (y/n): ").strip().lower()
     if decision == "y":
         eliminar_con_progreso(basura)
         print("✅ Limpieza completada.")
